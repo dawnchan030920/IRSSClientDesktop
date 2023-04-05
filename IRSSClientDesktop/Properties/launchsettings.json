@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "IRSSClientDesktop (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "IRSSClientDesktop (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
