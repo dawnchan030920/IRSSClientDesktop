@@ -1,6 +1,8 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using System.Collections.ObjectModel;
+using CommunityToolkit.Mvvm.ComponentModel;
 
 using IRSSClientDesktop.Contracts.Services;
+using IRSSClientDesktop.Core.Models;
 using IRSSClientDesktop.Views;
 
 using Microsoft.UI.Xaml.Navigation;
@@ -9,6 +11,15 @@ namespace IRSSClientDesktop.ViewModels;
 
 public class ShellViewModel : ObservableRecipient
 {
+    public ObservableCollection<SourceItemData> Sources
+    {
+        get;
+        private set;
+    } = new()
+    {
+        new SourceItemData() { Account = "dc392", Platform = SourcePlatform.WeChat }
+    };
+
     private bool _isBackEnabled;
     private object? _selected;
 
@@ -51,7 +62,7 @@ public class ShellViewModel : ObservableRecipient
             return;
         }
 
-        var selectedItem = NavigationViewService.GetSelectedItem(e.SourcePageType);
+        var selectedItem = NavigationViewService.GetSelectedItem(e.SourcePageType, e.Parameter);
         if (selectedItem != null)
         {
             Selected = selectedItem;

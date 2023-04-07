@@ -43,11 +43,11 @@ public class NavigationViewService : INavigationViewService
         }
     }
 
-    public NavigationViewItem? GetSelectedItem(Type pageType)
+    public NavigationViewItem? GetSelectedItem(Type pageType, object? parameter)
     {
         if (_navigationView != null)
         {
-            return GetSelectedItem(_navigationView.MenuItems, pageType) ?? GetSelectedItem(_navigationView.FooterMenuItems, pageType);
+            return GetSelectedItem(_navigationView.MenuItems, pageType, parameter) ?? GetSelectedItem(_navigationView.FooterMenuItems, pageType, parameter);
         }
 
         return null;
@@ -55,6 +55,13 @@ public class NavigationViewService : INavigationViewService
 
     private void OnBackRequested(NavigationView sender, NavigationViewBackRequestedEventArgs args) => _navigationService.GoBack();
 
+
+    /// <summary>
+    /// Event handler for NavigationView.ItemInvoked.
+    /// </summary>
+    /// <remarks>Tag property of the selected item will be sent as the parameter of Navigation Service.</remarks>
+    /// <param name="sender"></param>
+    /// <param name="args"></param>
     private void OnItemInvoked(NavigationView sender, NavigationViewItemInvokedEventArgs args)
     {
         if (args.IsSettingsInvoked)
@@ -67,21 +74,22 @@ public class NavigationViewService : INavigationViewService
 
             if (selectedItem?.GetValue(NavigationHelper.NavigateToProperty) is string pageKey)
             {
-                _navigationService.NavigateTo(pageKey);
+                _navigationService.NavigateTo(pageKey, selectedItem.Tag);
             }
         }
     }
 
-    private NavigationViewItem? GetSelectedItem(IEnumerable<object> menuItems, Type pageType)
+    // TODO: Parameter to support navigation among same page with different data.
+    private NavigationViewItem? GetSelectedItem(IEnumerable<object> menuItems, Type pageType, object? parameter)
     {
         foreach (var item in menuItems.OfType<NavigationViewItem>())
         {
-            if (IsMenuItemForPageType(item, pageType))
+            if (IsMenuItemForPageType(item, pageType, parameter))
             {
                 return item;
             }
 
-            var selectedChild = GetSelectedItem(item.MenuItems, pageType);
+            var selectedChild = GetSelectedItem(item.MenuItems, pageType, parameter);
             if (selectedChild != null)
             {
                 return selectedChild;
@@ -91,11 +99,11 @@ public class NavigationViewService : INavigationViewService
         return null;
     }
 
-    private bool IsMenuItemForPageType(NavigationViewItem menuItem, Type sourcePageType)
+    private bool IsMenuItemForPageType(NavigationViewItem menuItem, Type sourcePageType, object? parameter)
     {
         if (menuItem.GetValue(NavigationHelper.NavigateToProperty) is string pageKey)
         {
-            return _pageService.GetPageType(pageKey) == sourcePageType;
+            return _pageService.GetPageType(pageKey) == sourcePageType && (menuItem.Tag == null || menuItem.Tag.Equals(parameter));
         }
 
         return false;

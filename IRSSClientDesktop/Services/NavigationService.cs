@@ -80,7 +80,7 @@ public class NavigationService : INavigationService
 
         return false;
     }
-
+    
     public bool NavigateTo(string pageKey, object? parameter = null, bool clearNavigation = false)
     {
         var pageType = _pageService.GetPageType(pageKey);
