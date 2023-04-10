@@ -68,14 +68,18 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<NoteViewModel>();
+            services.AddTransient<NotePage>();
+            services.AddTransient<FavoriteViewModel>();
+            services.AddTransient<FavoritePage>();
+            services.AddTransient<SourceViewModel>();
+            services.AddTransient<SourcePage>();
             services.AddTransient<AnswerViewModel>();
             services.AddTransient<AnswerPage>();
             services.AddTransient<ArticleViewModel>();
             services.AddTransient<ArticlePage>();
             services.AddTransient<MessageViewModel>();
             services.AddTransient<MessagePage>();
-            services.AddTransient<SourcesViewModel>();
-            services.AddTransient<SourcesPage>();
             services.AddTransient<SettingsViewModel>();
             services.AddTransient<SettingsPage>();
             services.AddTransient<HomeViewModel>();

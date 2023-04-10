@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
-
+using CommunityToolkit.Mvvm.Input;
 using IRSSClientDesktop.Contracts.Services;
 using IRSSClientDesktop.Core.Models;
 using IRSSClientDesktop.Views;
@@ -9,7 +10,7 @@ using Microsoft.UI.Xaml.Navigation;
 
 namespace IRSSClientDesktop.ViewModels;
 
-public class ShellViewModel : ObservableRecipient
+public partial class ShellViewModel : ObservableRecipient
 {
     public ObservableCollection<SourceItemData> Sources
     {
@@ -17,8 +18,24 @@ public class ShellViewModel : ObservableRecipient
         private set;
     } = new()
     {
-        new SourceItemData() { Account = "dc392", Platform = SourcePlatform.WeChat }
+        new SourceItemData() { Account = "dc392", Platform = SourcePlatform.Bilibili }
     };
+
+    // TODO: Replace by real AddSource method.
+    [RelayCommand]
+    private void AddSource()
+    {
+        Sources.Add(new SourceItemData() { Account = "127", Platform = SourcePlatform.QQ });
+        NavigationService.NavigateTo(typeof(HomeViewModel).FullName, null, true);
+    }
+
+    // TODO: Replace by real DeleteSource method.
+    [RelayCommand]
+    private void DeleteSource(SourceItemData source)
+    {
+        Sources.Remove(source);
+        NavigationService.NavigateTo(typeof(HomeViewModel).FullName, null, true);
+    }
 
     private bool _isBackEnabled;
     private object? _selected;

@@ -153,15 +153,6 @@
   <data name="SettingsPage_PrivacyTermsLink.NavigateUri" xml:space="preserve">
     <value>https://YourPrivacyUrlGoesHere/</value>
   </data>
-  <data name="Sources_NoSelection.Text" xml:space="preserve">
-    <value>Select an item from the list.</value>
-  </data>
-  <data name="Shell_Sources.Content" xml:space="preserve">
-    <value>Sources</value>
-  </data>
-  <data name="Shell_ContentHeader.Content" xml:space="preserve">
-    <value>Content</value>
-  </data>
   <data name="Shell_Message.Content" xml:space="preserve">
     <value>Message</value>
   </data>
@@ -170,5 +161,26 @@
   </data>
   <data name="Shell_Answer.Content" xml:space="preserve">
     <value>Answer</value>
+  </data>
+  <data name="Shell_Source.Content" xml:space="preserve">
+    <value>Source</value>
+  </data>
+  <data name="SourceItemFlyout_Add.Text" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="SourceItemFlyout_Delete.Text" xml:space="preserve">
+    <value>Delete</value>
+  </data>
+  <data name="Favorite_NoSelection.Text" xml:space="preserve">
+    <value>Select an item from the list.</value>
+  </data>
+  <data name="Shell_Favorite.Content" xml:space="preserve">
+    <value>Favorite</value>
+  </data>
+  <data name="Note_NoSelection.Text" xml:space="preserve">
+    <value>Select an item from the list.</value>
+  </data>
+  <data name="Shell_Note.Content" xml:space="preserve">
+    <value>Note</value>
   </data>
 </root>

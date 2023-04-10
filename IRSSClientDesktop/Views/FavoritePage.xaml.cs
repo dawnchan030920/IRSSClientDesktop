@@ -6,16 +6,16 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace IRSSClientDesktop.Views;
 
-public sealed partial class SourcesPage : Page
+public sealed partial class FavoritePage : Page
 {
-    public SourcesViewModel ViewModel
+    public FavoriteViewModel ViewModel
     {
         get;
     }
 
-    public SourcesPage()
+    public FavoritePage()
     {
-        ViewModel = App.GetService<SourcesViewModel>();
+        ViewModel = App.GetService<FavoriteViewModel>();
         InitializeComponent();
     }
 

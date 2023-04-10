@@ -5,7 +5,7 @@ using Microsoft.UI.Xaml.Controls;
 
 namespace IRSSClientDesktop.Views;
 
-public sealed partial class SourcesDetailControl : UserControl
+public sealed partial class NoteDetailControl : UserControl
 {
     public SampleOrder? ListDetailsMenuItem
     {
@@ -13,16 +13,16 @@ public sealed partial class SourcesDetailControl : UserControl
         set => SetValue(ListDetailsMenuItemProperty, value);
     }
 
-    public static readonly DependencyProperty ListDetailsMenuItemProperty = DependencyProperty.Register("ListDetailsMenuItem", typeof(SampleOrder), typeof(SourcesDetailControl), new PropertyMetadata(null, OnListDetailsMenuItemPropertyChanged));
+    public static readonly DependencyProperty ListDetailsMenuItemProperty = DependencyProperty.Register("ListDetailsMenuItem", typeof(SampleOrder), typeof(NoteDetailControl), new PropertyMetadata(null, OnListDetailsMenuItemPropertyChanged));
 
-    public SourcesDetailControl()
+    public NoteDetailControl()
     {
         InitializeComponent();
     }
 
     private static void OnListDetailsMenuItemPropertyChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
     {
-        if (d is SourcesDetailControl control)
+        if (d is NoteDetailControl control)
         {
             control.ForegroundElement.ChangeView(0, 0, 1);
         }

@@ -8,7 +8,7 @@ using IRSSClientDesktop.Core.Models;
 
 namespace IRSSClientDesktop.ViewModels;
 
-public class SourcesViewModel : ObservableRecipient, INavigationAware
+public class FavoriteViewModel : ObservableRecipient, INavigationAware
 {
     private readonly ISampleDataService _sampleDataService;
     private SampleOrder? _selected;
@@ -21,7 +21,7 @@ public class SourcesViewModel : ObservableRecipient, INavigationAware
 
     public ObservableCollection<SampleOrder> SampleItems { get; private set; } = new ObservableCollection<SampleOrder>();
 
-    public SourcesViewModel(ISampleDataService sampleDataService)
+    public FavoriteViewModel(ISampleDataService sampleDataService)
     {
         _sampleDataService = sampleDataService;
     }

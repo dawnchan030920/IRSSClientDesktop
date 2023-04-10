@@ -1,4 +1,5 @@
-﻿using IRSSClientDesktop.Contracts.Services;
+﻿using System.Collections.Specialized;
+using IRSSClientDesktop.Contracts.Services;
 using IRSSClientDesktop.Helpers;
 using IRSSClientDesktop.ViewModels;
 
@@ -8,6 +9,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 
 using Windows.System;
+using IRSSClientDesktop.Core.Models;
 
 namespace IRSSClientDesktop.Views;
 
@@ -27,13 +29,54 @@ public sealed partial class ShellPage : Page
         ViewModel.NavigationService.Frame = NavigationFrame;
         ViewModel.NavigationViewService.Initialize(NavigationViewControl);
 
+        ViewModel.Sources.CollectionChanged += OnSourceUpdated!;
+
         // TODO: Set the title bar icon by updating /Assets/WindowIcon.ico.
         // A custom title bar is required for full window theme and Mica support.
         // https://docs.microsoft.com/windows/apps/develop/title-bar?tabs=winui3#full-customization
         App.MainWindow.ExtendsContentIntoTitleBar = true;
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
-        AppTitleBarText.Text = "AppDisplayName".GetLocalized();
+        AppTitleBarText.Text = ResourceExtensions.GetLocalized("AppDisplayName");
+
+        // Set source sub items.
+        UpdateSource();
+    }
+
+    private void OnSourceUpdated(object sender, NotifyCollectionChangedEventArgs e)
+    {
+        UpdateSource();
+    }
+
+    private void UpdateSource()
+    {
+        SourceItemRoot.MenuItems.Clear();
+        foreach (var item in ViewModel.Sources)
+        {
+            var container = new NavigationViewItem
+            {
+                Content = $"{item.Platform} - {item.Account}",
+                Tag = item,
+                ContextFlyout = new MenuFlyout
+                {
+                    Items =
+                    {
+                        new MenuFlyoutItem()
+                        {
+                            Text = "SourceItemFlyout_Delete/Text".GetLocalized(),
+                            Icon = new FontIcon()
+                            {
+                                Glyph = "\uE74D"
+                            },
+                            CommandParameter = item,
+                            Command = ViewModel.DeleteSourceCommand
+                        }
+                    }
+                }
+            };
+            NavigationHelper.SetNavigateTo(container, typeof(SourceViewModel).FullName);
+            SourceItemRoot.MenuItems.Add(container);
+        }
     }
 
     private void OnLoaded(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)

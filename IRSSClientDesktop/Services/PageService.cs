@@ -16,10 +16,12 @@ public class PageService : IPageService
     {
         Configure<HomeViewModel, HomePage>();
         Configure<SettingsViewModel, SettingsPage>();
-        Configure<SourcesViewModel, SourcesPage>();
+        Configure<SourceViewModel, SourcePage>();
         Configure<MessageViewModel, MessagePage>();
         Configure<ArticleViewModel, ArticlePage>();
         Configure<AnswerViewModel, AnswerPage>();
+        Configure<FavoriteViewModel, FavoritePage>();
+        Configure<NoteViewModel, NotePage>();
     }
 
     public Type GetPageType(string key)
