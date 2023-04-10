@@ -183,4 +183,7 @@
   <data name="Shell_Note.Content" xml:space="preserve">
     <value>Note</value>
   </data>
+  <data name="Navigation_AutoSuggestion.PlaceholderText" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

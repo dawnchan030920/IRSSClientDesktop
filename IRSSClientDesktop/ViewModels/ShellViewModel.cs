@@ -1,5 +1,6 @@
 ﻿using System.Collections.ObjectModel;
 using System.Windows.Input;
+using ABI.Microsoft.UI.Xaml.Controls;
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using IRSSClientDesktop.Contracts.Services;
@@ -12,12 +13,17 @@ namespace IRSSClientDesktop.ViewModels;
 
 public partial class ShellViewModel : ObservableRecipient
 {
+    public ObservableCollection<SuggestedItemData> SuggestedItems
+    {
+        get;
+        private set;
+    } = new();
+
     public ObservableCollection<SourceItemData> Sources
     {
         get;
         private set;
-    } = new()
-    {
+    } = new() {
         new SourceItemData() { Account = "dc392", Platform = SourcePlatform.Bilibili }
     };
 
@@ -25,6 +31,7 @@ public partial class ShellViewModel : ObservableRecipient
     [RelayCommand]
     private void AddSource()
     {
+        Sources.Clear();
         Sources.Add(new SourceItemData() { Account = "127", Platform = SourcePlatform.QQ });
         NavigationService.NavigateTo(typeof(HomeViewModel).FullName, null, true);
     }
@@ -37,6 +44,17 @@ public partial class ShellViewModel : ObservableRecipient
         NavigationService.NavigateTo(typeof(HomeViewModel).FullName, null, true);
     }
 
+    // TODO: Replace by real Search method.
+    [RelayCommand]
+    private void Search(string input)
+    {
+        SuggestedItems.Clear();
+        foreach (var item in SearchService.GetData(input))
+        {
+            SuggestedItems.Add(item);
+        }
+    }
+
     private bool _isBackEnabled;
     private object? _selected;
 
@@ -46,6 +64,11 @@ public partial class ShellViewModel : ObservableRecipient
     }
 
     public INavigationViewService NavigationViewService
+    {
+        get;
+    }
+
+    public ISearchService SearchService
     {
         get;
     }
@@ -62,11 +85,18 @@ public partial class ShellViewModel : ObservableRecipient
         set => SetProperty(ref _selected, value);
     }
 
-    public ShellViewModel(INavigationService navigationService, INavigationViewService navigationViewService)
+    public ShellViewModel(INavigationService navigationService, INavigationViewService navigationViewService, ISearchService searchService)
     {
         NavigationService = navigationService;
         NavigationService.Navigated += OnNavigated;
         NavigationViewService = navigationViewService;
+        SearchService = searchService;
+
+        // TODO: Change the instant init code to lazy load.
+        foreach(var item in searchService.GetData(null))
+        {
+            SuggestedItems.Add(item);
+        }
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)

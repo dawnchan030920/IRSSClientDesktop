@@ -8,6 +8,7 @@
     xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
     xmlns:models="using:IRSSClientDesktop.Core.Models"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     Loaded="OnLoaded">
 
     <Grid>
@@ -36,6 +37,27 @@
             ExpandedModeThresholdWidth="1280"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
+
+            <NavigationView.AutoSuggestBox>
+                <AutoSuggestBox x:Uid="Navigation_AutoSuggestion" ItemsSource="{x:Bind ViewModel.SuggestedItems, Mode=OneWay}" x:Name="AutoSuggestBox" TextMemberPath="Title" QueryIcon="Find">
+
+                    <AutoSuggestBox.ItemTemplate>
+                        <DataTemplate x:DataType="models:SuggestedItemData">
+                            <StackPanel Orientation="Vertical" Padding="0,4">
+                                <TextBlock Text="{x:Bind Title}" Style="{StaticResource BodyTextBlockStyle}" />
+                                <TextBlock Text="{x:Bind Description}" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <TextBlock Text="{x:Bind SourceCategory}" Style="{StaticResource CaptionTextBlockStyle}" />
+                            </StackPanel>
+                        </DataTemplate>
+                    </AutoSuggestBox.ItemTemplate>
+
+                    <i:Interaction.Behaviors>
+                        <core:EventTriggerBehavior EventName="TextChanged">
+                            <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand}" CommandParameter="{x:Bind AutoSuggestBox.Text, Mode=OneWay}" />
+                        </core:EventTriggerBehavior>
+                    </i:Interaction.Behaviors>
+                </AutoSuggestBox>
+            </NavigationView.AutoSuggestBox>
 
             <NavigationView.MenuItems>
                 <NavigationViewItem x:Uid="Shell_Home" helpers:NavigationHelper.NavigateTo="IRSSClientDesktop.ViewModels.HomeViewModel">
