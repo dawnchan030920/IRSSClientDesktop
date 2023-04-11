@@ -9,7 +9,12 @@
     xmlns:models="using:IRSSClientDesktop.Core.Models"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
     Loaded="OnLoaded">
+
+    <Page.Resources>
+        <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+    </Page.Resources>
 
     <Grid>
         <Grid x:Name="AppTitleBar"
@@ -44,9 +49,9 @@
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate x:DataType="models:SuggestedItemData">
                             <StackPanel Orientation="Vertical" Padding="0,4">
-                                <TextBlock Text="{x:Bind Title}" Style="{StaticResource BodyTextBlockStyle}" />
-                                <TextBlock Text="{x:Bind Description}" Style="{StaticResource CaptionTextBlockStyle}" />
-                                <TextBlock Text="{x:Bind SourceCategory}" Style="{StaticResource CaptionTextBlockStyle}" />
+                                <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,2,0,0" />
+                                <TextBlock Visibility="{x:Bind Description, Converter={StaticResource StringVisibilityConverter}}" Text="{x:Bind Description}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".8" Margin="0,2,0,0" />
+                                <TextBlock Text="{x:Bind SourceCategory}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".6" Margin="0,2,0,0" />
                             </StackPanel>
                         </DataTemplate>
                     </AutoSuggestBox.ItemTemplate>
