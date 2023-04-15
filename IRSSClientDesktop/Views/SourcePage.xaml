@@ -4,7 +4,18 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:viewModels="using:IRSSClientDesktop.ViewModels"
+    xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
+    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel, Mode=OneWay}"
     mc:Ignorable="d">
+
+    <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+        <DataTemplate x:Key="HeaderTemplate" x:DataType="viewModels:SourceViewModel">
+            <Grid>
+                <TextBlock Text="{x:Bind Account, Mode=OneWay}" Style="{StaticResource TitleTextBlockStyle}" />
+            </Grid>
+        </DataTemplate>
+    </behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
 
     <Grid x:Name="ContentArea">
         

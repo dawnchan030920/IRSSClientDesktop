@@ -4,9 +4,68 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
+    xmlns:viewModels="using:IRSSClientDesktop.ViewModels"
+    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ArticleMessageSplit.IsPaneOpen" Value="True" />
+                        <Setter Target="ArticleMessageSplit.DisplayMode" Value="Inline" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+
+        <SplitView x:Name="ArticleMessageSplit" IsPaneOpen="{x:Bind ViewModel.IsPaneOpen, Mode=TwoWay}" DisplayMode="Overlay" PanePlacement="Right">
+            <SplitView.Pane>
+                <TextBlock Text="Pane" />
+            </SplitView.Pane>
+            <TextBlock Text="Content" />
+        </SplitView>
     </Grid>
+
+    <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+        <DataTemplate x:DataType="viewModels:HomeViewModel">
+            <UserControl>
+                <Grid Margin="0,0,56,0">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState>
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="800" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Target="MessageToggle.Visibility" Value="Collapsed" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="Auto" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+
+                    <TextBlock Text="Hello, User!" Style="{StaticResource TitleTextBlockStyle}" Grid.Column="0" />
+
+                    <StackPanel Grid.Column="1" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                        <ToggleButton x:Name="MessageToggle" IsChecked="{x:Bind IsPaneOpen, Mode=TwoWay}">
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8F2;" FontSize="14" />
+                            <ToolTipService.ToolTip>
+                                <ToolTip>Messages</ToolTip>
+                            </ToolTipService.ToolTip>
+                        </ToggleButton>
+                    </StackPanel>
+                </Grid>
+            </UserControl>
+        </DataTemplate>
+    </behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
 </Page>

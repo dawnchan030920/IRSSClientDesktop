@@ -2,8 +2,11 @@
 
 namespace IRSSClientDesktop.ViewModels;
 
-public class HomeViewModel : ObservableRecipient
+public partial class HomeViewModel : ObservableRecipient
 {
+    [ObservableProperty]
+    private bool _isPaneOpen;
+
     public HomeViewModel()
     {
     }
