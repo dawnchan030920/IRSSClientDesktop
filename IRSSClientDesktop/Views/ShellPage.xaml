@@ -45,23 +45,17 @@
             Header="{x:Bind ((ContentControl)ViewModel.Selected).Content, Mode=OneWay}">
 
             <NavigationView.AutoSuggestBox>
-                <AutoSuggestBox x:Uid="Navigation_AutoSuggestion" ItemsSource="{x:Bind ViewModel.SuggestedItems, Mode=OneWay}" x:Name="AutoSuggestBox" TextMemberPath="Title" QueryIcon="Find">
+                <AutoSuggestBox x:Uid="Navigation_AutoSuggestion" ItemsSource="{x:Bind ViewModel.SuggestedItems, Mode=OneWay}" x:Name="AutoSuggestBox" TextMemberPath="Title" QueryIcon="Find" TextChanged="OnAutoSuggestBoxTextChanged">
 
                     <AutoSuggestBox.ItemTemplate>
                         <DataTemplate x:DataType="models:SuggestedItemData">
                             <StackPanel Orientation="Vertical" Padding="0,4">
                                 <TextBlock Text="{x:Bind Title}" Style="{ThemeResource BaseTextBlockStyle}" Margin="0,2,0,0" />
                                 <TextBlock Visibility="{x:Bind Description, Converter={StaticResource StringVisibilityConverter}}" Text="{x:Bind Description}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".8" Margin="0,2,0,0" />
-                                <TextBlock Text="{x:Bind SourceCategory}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".6" Margin="0,2,0,0" />
+                                <TextBlock Visibility="{x:Bind SourceCategory, Converter={StaticResource StringVisibilityConverter}}" Text="{x:Bind SourceCategory}" Style="{ThemeResource CaptionTextBlockStyle}" Opacity=".6" Margin="0,2,0,0" />
                             </StackPanel>
                         </DataTemplate>
                     </AutoSuggestBox.ItemTemplate>
-
-                    <i:Interaction.Behaviors>
-                        <core:EventTriggerBehavior EventName="TextChanged">
-                            <core:InvokeCommandAction Command="{x:Bind ViewModel.SearchCommand}" CommandParameter="{x:Bind AutoSuggestBox.Text, Mode=OneWay}" />
-                        </core:EventTriggerBehavior>
-                    </i:Interaction.Behaviors>
                 </AutoSuggestBox>
             </NavigationView.AutoSuggestBox>
 

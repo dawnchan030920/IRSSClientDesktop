@@ -53,6 +53,14 @@ public partial class ShellViewModel : ObservableRecipient
         {
             SuggestedItems.Add(item);
         }
+
+        if (SuggestedItems.Count == 0)
+        {
+            SuggestedItems.Add(new SuggestedItemData
+            {
+                Title = "No Result Found"
+            });
+        }
     }
 
     private bool _isBackEnabled;

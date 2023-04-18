@@ -48,6 +48,14 @@ public sealed partial class ShellPage : Page
         UpdateSource();
     }
 
+    private void OnAutoSuggestBoxTextChanged(object sender, AutoSuggestBoxTextChangedEventArgs e)
+    {
+        if (sender is AutoSuggestBox box && e.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
+        {
+            ViewModel.SearchCommand.Execute(box.Text);
+        }
+    }
+
     private void UpdateSource()
     {
         SourceItemRoot.MenuItems.Clear();

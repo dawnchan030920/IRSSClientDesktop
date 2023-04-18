@@ -20,7 +20,7 @@ public class SuggestedItemData
         set;
     }
 
-    public SourceCategory SourceCategory
+    public SourceCategory? SourceCategory
     {
         get;
         set;
