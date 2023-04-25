@@ -29,8 +29,6 @@ public sealed partial class ShellPage : Page
         ViewModel.NavigationService.Frame = NavigationFrame;
         ViewModel.NavigationViewService.Initialize(NavigationViewControl);
 
-        ViewModel.Sources.CollectionChanged += OnSourceUpdated!;
-
         // TODO: Set the title bar icon by updating /Assets/WindowIcon.ico.
         // A custom title bar is required for full window theme and Mica support.
         // https://docs.microsoft.com/windows/apps/develop/title-bar?tabs=winui3#full-customization
@@ -38,14 +36,6 @@ public sealed partial class ShellPage : Page
         App.MainWindow.SetTitleBar(AppTitleBar);
         App.MainWindow.Activated += MainWindow_Activated;
         AppTitleBarText.Text = ResourceExtensions.GetLocalized("AppDisplayName");
-
-        // Set source sub items.
-        UpdateSource();
-    }
-
-    private void OnSourceUpdated(object sender, NotifyCollectionChangedEventArgs e)
-    {
-        UpdateSource();
     }
 
     private void OnAutoSuggestBoxTextChanged(object sender, AutoSuggestBoxTextChangedEventArgs e)
@@ -53,37 +43,6 @@ public sealed partial class ShellPage : Page
         if (sender is AutoSuggestBox box && e.Reason == AutoSuggestionBoxTextChangeReason.UserInput)
         {
             ViewModel.SearchCommand.Execute(box.Text);
-        }
-    }
-
-    private void UpdateSource()
-    {
-        SourceItemRoot.MenuItems.Clear();
-        foreach (var item in ViewModel.Sources)
-        {
-            var container = new NavigationViewItem
-            {
-                Content = $"{item.Platform} - {item.Account}",
-                Tag = item,
-                ContextFlyout = new MenuFlyout
-                {
-                    Items =
-                    {
-                        new MenuFlyoutItem()
-                        {
-                            Text = "SourceItemFlyout_Delete/Text".GetLocalized(),
-                            Icon = new FontIcon()
-                            {
-                                Glyph = "\uE74D"
-                            },
-                            CommandParameter = item,
-                            Command = ViewModel.DeleteSourceCommand
-                        }
-                    }
-                }
-            };
-            NavigationHelper.SetNavigateTo(container, typeof(SourceViewModel).FullName);
-            SourceItemRoot.MenuItems.Add(container);
         }
     }
 

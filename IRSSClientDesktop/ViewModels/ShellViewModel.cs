@@ -19,31 +19,6 @@ public partial class ShellViewModel : ObservableRecipient
         private set;
     } = new();
 
-    public ObservableCollection<SourceItemData> Sources
-    {
-        get;
-        private set;
-    } = new() {
-        new SourceItemData() { Account = "dc392", Platform = SourcePlatform.Bilibili }
-    };
-
-    // TODO: Replace by real AddSource method.
-    [RelayCommand]
-    private void AddSource()
-    {
-        Sources.Clear();
-        Sources.Add(new SourceItemData() { Account = "127", Platform = SourcePlatform.QQ });
-        NavigationService.NavigateTo(typeof(HomeViewModel).FullName, null, true);
-    }
-
-    // TODO: Replace by real DeleteSource method.
-    [RelayCommand]
-    private void DeleteSource(SourceItemData source)
-    {
-        Sources.Remove(source);
-        NavigationService.NavigateTo(typeof(HomeViewModel).FullName, null, true);
-    }
-
     // TODO: Replace by real Search method.
     [RelayCommand]
     private void Search(string input)

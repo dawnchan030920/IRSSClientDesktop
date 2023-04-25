@@ -86,19 +86,25 @@
 
                 <NavigationViewItemSeparator />
 
-                <NavigationViewItem x:Uid="Shell_Source" x:Name="SourceItemRoot">
+                <NavigationViewItem x:Uid="Shell_QQ">
                     <NavigationViewItem.Icon>
-                        <FontIcon Glyph="&#xE779;" FontFamily="{StaticResource SymbolThemeFontFamily}" />
+                        <PathIcon Data="{StaticResource QQ}" />
                     </NavigationViewItem.Icon>
-                    <NavigationViewItem.ContextFlyout>
-                        <MenuFlyout>
-                            <MenuFlyoutItem x:Uid="SourceItemFlyout_Add" Command="{x:Bind ViewModel.AddSourceCommand}">
-                                <MenuFlyoutItem.Icon>
-                                    <FontIcon Glyph="&#xE710;" FontFamily="{StaticResource SymbolThemeFontFamily}" />
-                                </MenuFlyoutItem.Icon>
-                            </MenuFlyoutItem>
-                        </MenuFlyout>
-                    </NavigationViewItem.ContextFlyout>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_WeChat">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{StaticResource WeChat}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_Zhihu">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{StaticResource Zhihu}" />
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
+                <NavigationViewItem x:Uid="Shell_Bilibili">
+                    <NavigationViewItem.Icon>
+                        <PathIcon Data="{StaticResource Bilibili}" />
+                    </NavigationViewItem.Icon>
                 </NavigationViewItem>
             </NavigationView.MenuItems>
 

@@ -186,4 +186,16 @@
   <data name="Navigation_AutoSuggestion.PlaceholderText" xml:space="preserve">
     <value>Search</value>
   </data>
+  <data name="Shell_Bilibili.Content" xml:space="preserve">
+    <value>Bilibili</value>
+  </data>
+  <data name="Shell_QQ.Content" xml:space="preserve">
+    <value>QQ</value>
+  </data>
+  <data name="Shell_WeChat.Content" xml:space="preserve">
+    <value>WeChat</value>
+  </data>
+  <data name="Shell_Zhihu.Content" xml:space="preserve">
+    <value>Zhihu</value>
+  </data>
 </root>
