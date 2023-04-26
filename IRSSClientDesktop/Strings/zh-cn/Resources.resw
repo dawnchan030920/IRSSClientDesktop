@@ -198,4 +198,10 @@
   <data name="Shell_Zhihu.Content" xml:space="preserve">
     <value>知乎</value>
   </data>
+  <data name="Answer_Header.Text" xml:space="preserve">
+    <value>问答</value>
+  </data>
+  <data name="Answer_HeaderSearch.PlaceholderText" xml:space="preserve">
+    <value>智能问答</value>
+  </data>
 </root>

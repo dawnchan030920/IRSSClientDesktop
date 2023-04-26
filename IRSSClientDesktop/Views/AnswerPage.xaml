@@ -4,9 +4,41 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
+    xmlns:viewModels="using:IRSSClientDesktop.ViewModels"
+    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
     mc:Ignorable="d">
 
+    <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+        <DataTemplate x:DataType="viewModels:AnswerViewModel">
+            <UserControl>
+                <RelativePanel Padding="0,0,56,0">
+                    <VisualStateManager.VisualStateGroups>
+                        <VisualStateGroup>
+                            <VisualState>
+                                <VisualState.StateTriggers>
+                                    <AdaptiveTrigger MinWindowWidth="640" />
+                                </VisualState.StateTriggers>
+                                <VisualState.Setters>
+                                    <Setter Target="HeaderSearchBox.(RelativePanel.Below)" Value="{x:Null}" />
+                                    <Setter Target="HeaderSearchBox.(RelativePanel.AlignLeftWithPanel)" Value="False" />
+                                    <Setter Target="HeaderSearchBox.Width" Value="360" />
+                                    <Setter Target="HeaderSearchBox.Margin" Value="0,0,0,0" />
+                                </VisualState.Setters>
+                            </VisualState>
+                        </VisualStateGroup>
+                    </VisualStateManager.VisualStateGroups>
+                    <TextBlock x:Name="AnswerHeader" x:Uid="Answer_Header" Style="{StaticResource TitleTextBlockStyle}" />
+                    <AutoSuggestBox x:Name="HeaderSearchBox" x:Uid="Answer_HeaderSearch" RelativePanel.AlignRightWithPanel="True" RelativePanel.AlignBottomWithPanel="True"
+                                    RelativePanel.Below="AnswerHeader" RelativePanel.AlignLeftWithPanel="True"
+                                    Margin="0,16,0,0"
+                                    QueryIcon="Find" />
+                </RelativePanel>
+            </UserControl>
+        </DataTemplate>
+    </behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+
     <Grid x:Name="ContentArea">
-        
+
     </Grid>
 </Page>

@@ -198,4 +198,10 @@
   <data name="Shell_Zhihu.Content" xml:space="preserve">
     <value>Zhihu</value>
   </data>
+  <data name="Answer_Header.Text" xml:space="preserve">
+    <value>Answer</value>
+  </data>
+  <data name="Answer_HeaderSearch.PlaceholderText" xml:space="preserve">
+    <value>Search smartly...</value>
+  </data>
 </root>
