@@ -2,8 +2,10 @@
 
 namespace IRSSClientDesktop.ViewModels;
 
-public class MessageViewModel : ObservableRecipient
+public partial class MessageViewModel : ObservableRecipient
 {
+    [ObservableProperty] private int _selectedIndex;
+
     public MessageViewModel()
     {
     }

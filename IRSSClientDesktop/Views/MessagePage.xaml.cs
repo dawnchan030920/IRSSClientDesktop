@@ -1,4 +1,5 @@
-﻿using IRSSClientDesktop.ViewModels;
+﻿using CommunityToolkit.Labs.WinUI;
+using IRSSClientDesktop.ViewModels;
 
 using Microsoft.UI.Xaml.Controls;
 

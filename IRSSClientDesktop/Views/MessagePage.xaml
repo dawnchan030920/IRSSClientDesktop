@@ -4,9 +4,53 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
+    xmlns:viewModels="using:IRSSClientDesktop.ViewModels"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
     mc:Ignorable="d">
 
+    <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+        <DataTemplate x:DataType="viewModels:MessageViewModel">
+            <Grid Padding="0,0,56,0" ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="消息" />
+                </StackPanel>
+                <labs:Segmented Grid.Column="1" VerticalAlignment="Bottom" HorizontalAlignment="Right" SelectedIndex="{x:Bind SelectedIndex, Mode=TwoWay}">
+                    <labs:SegmentedItem Content="订阅" Tag="Subscription">
+                        <labs:SegmentedItem.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xEA8F;" />
+                        </labs:SegmentedItem.Icon>
+                    </labs:SegmentedItem>
+                    <labs:SegmentedItem Content="综述" Tag="Summary">
+                        <labs:SegmentedItem.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8BC;" />
+                        </labs:SegmentedItem.Icon>
+                    </labs:SegmentedItem>
+                </labs:Segmented>
+            </Grid>
+        </DataTemplate>
+    </behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+
     <Grid x:Name="ContentArea">
-        
+        <controls:SwitchPresenter Value="{x:Bind ViewModel.SelectedIndex, Mode=TwoWay}">
+            <controls:Case>
+                <controls:Case.Value>
+                    <x:Int32>0</x:Int32>
+                </controls:Case.Value>
+                <TextBlock Text="Subscription"></TextBlock>
+            </controls:Case>
+            <controls:Case>
+                <controls:Case.Value>
+                    <x:Int32>1</x:Int32>
+                </controls:Case.Value>
+                <TextBlock Text="Summary"></TextBlock>
+            </controls:Case>
+        </controls:SwitchPresenter>
     </Grid>
 </Page>
