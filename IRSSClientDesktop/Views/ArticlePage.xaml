@@ -4,9 +4,116 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
+    xmlns:viewModels="using:IRSSClientDesktop.ViewModels"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
     mc:Ignorable="d">
 
+    <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+        <DataTemplate x:DataType="viewModels:ArticleViewModel">
+            <Grid Padding="0,0,56,0" ColumnSpacing="16">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="Auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <StackPanel Grid.Column="0">
+                    <TextBlock x:Uid="Article_Header" Style="{StaticResource TitleTextBlockStyle}" />
+                    <TextBlock Style="{StaticResource BodyTextBlockStyle}" Opacity="0.8">
+                        <Run x:Uid="TotalityStart" />
+                        <Run Text="{x:Bind ArticleCount}" />
+                        <Run x:Uid="TotalityEnd" />
+                    </TextBlock>
+                </StackPanel>
+                <CommandBar Grid.Column="1" DefaultLabelPosition="Right" VerticalAlignment="Bottom" Background="Transparent">
+                    <CommandBar.PrimaryCommands>
+                        <AppBarElementContainer VerticalAlignment="Center" Margin="0,0,2,0">
+                            <AutoSuggestBox Width="240" VerticalAlignment="Center" QueryIcon="Find" />
+                        </AppBarElementContainer>
+                        <AppBarButton x:Uid="Article_FilterAppButton">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE71C;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarSeparator />
+                        <AppBarToggleButton x:Uid="Article_TopicAppButton" IsChecked="{x:Bind IsTopicPanelOpen, Mode=TwoWay}">
+                            <AppBarToggleButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8EC;" />
+                            </AppBarToggleButton.Icon>
+                        </AppBarToggleButton>
+                    </CommandBar.PrimaryCommands>
+                </CommandBar>
+            </Grid>
+        </DataTemplate>
+    </behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+
     <Grid x:Name="ContentArea">
-        
+        <VisualStateManager.VisualStateGroups>
+            <VisualStateGroup>
+                <VisualState>
+                    <VisualState.StateTriggers>
+                        <AdaptiveTrigger MinWindowWidth="800" />
+                    </VisualState.StateTriggers>
+                    <VisualState.Setters>
+                        <Setter Target="ArticleSplitView.DisplayMode" Value="Inline" />
+                    </VisualState.Setters>
+                </VisualState>
+            </VisualStateGroup>
+        </VisualStateManager.VisualStateGroups>
+        <SplitView x:Name="ArticleSplitView" IsPaneOpen="{x:Bind ViewModel.IsTopicPanelOpen, Mode=TwoWay}" PanePlacement="Right" PaneBackground="Transparent">
+            <SplitView.Content>
+                <Grid>
+                </Grid>
+            </SplitView.Content>
+            <SplitView.Pane>
+                <Grid Margin="0,0,0,16">
+                    <Border BorderBrush="{ThemeResource SystemChromeBlackLowColor}" BorderThickness="1" CornerRadius="4">
+                        <Grid RowSpacing="8" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="16,8,16,8">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                                <RowDefinition Height="*" />
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <TextBlock x:Uid="Article_TopicPanelHeader" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,0,0,8" Grid.Row="0" />
+                            <labs:TokenView Grid.Row="1" CanRemoveTokens="True" ItemsSource="{x:Bind ViewModel.Topics}" IsWrapped="True" VerticalAlignment="Top" SelectionMode="None">
+                                <labs:TokenView.ItemTemplate>
+                                    <DataTemplate x:DataType="x:String">
+                                        <Grid>
+                                            <TextBlock Text="{x:Bind}" Margin="12,0,12,0" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </labs:TokenView.ItemTemplate>
+                            </labs:TokenView>
+                            <Grid Grid.Row="2">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="Auto" />
+                                </Grid.ColumnDefinitions>
+                                <TextBox x:Name="NewTopicTextBox" Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind ViewModel.NewTopicText, Mode=TwoWay}" />
+                                <CommandBar DefaultLabelPosition="Collapsed" Grid.Column="1">
+                                    <AppBarButton x:Uid="Article_Add" Command="{x:Bind ViewModel.AddNewTopicCommand}" AllowFocusOnInteraction="True">
+                                        <AppBarButton.Icon>
+                                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE710;" />
+                                        </AppBarButton.Icon>
+                                    </AppBarButton>
+                                    <CommandBar.SecondaryCommands>
+                                        <AppBarButton x:Uid="Article_Upload" Command="{x:Bind ViewModel.UploadCommand}">
+                                            <AppBarButton.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE898;" />
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
+                                        <AppBarButton x:Uid="Article_Cancel" Command="{x:Bind ViewModel.UndoCommand}">
+                                            <AppBarButton.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE7A7;" />
+                                            </AppBarButton.Icon>
+                                        </AppBarButton>
+                                    </CommandBar.SecondaryCommands>
+                                </CommandBar>
+                            </Grid>
+                        </Grid>
+                    </Border>
+                </Grid>
+            </SplitView.Pane>
+        </SplitView>
     </Grid>
 </Page>

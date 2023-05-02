@@ -1,6 +1,8 @@
-﻿using IRSSClientDesktop.ViewModels;
+﻿using Windows.System;
+using IRSSClientDesktop.ViewModels;
 
 using Microsoft.UI.Xaml.Controls;
+using Microsoft.UI.Xaml.Input;
 
 namespace IRSSClientDesktop.Views;
 

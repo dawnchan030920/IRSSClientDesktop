@@ -204,4 +204,34 @@
   <data name="Answer_HeaderSearch.PlaceholderText" xml:space="preserve">
     <value>Search smartly...</value>
   </data>
+  <data name="Article_Header.Text" xml:space="preserve">
+    <value>Article</value>
+  </data>
+  <data name="TotalityEnd.Text" xml:space="preserve">
+    <value>in total</value>
+  </data>
+  <data name="TotalityStart.Text" xml:space="preserve">
+    <value />
+  </data>
+  <data name="Article_FilterAppButton.Label" xml:space="preserve">
+    <value>Filter</value>
+  </data>
+  <data name="Article_TopicAppButton.Label" xml:space="preserve">
+    <value>Topics</value>
+  </data>
+  <data name="Article_Upload.Label" xml:space="preserve">
+    <value>Upload</value>
+  </data>
+  <data name="Article_TopicPanelHeader.Text" xml:space="preserve">
+    <value>Topic Panel</value>
+  </data>
+  <data name="Article_Cancel.Label" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="Article_Add.Label" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="Article_Delete.Label" xml:space="preserve">
+    <value>Delete</value>
+  </data>
 </root>
