@@ -13,7 +13,7 @@
   <Identity
     Name="75f06015-b4a4-4399-961d-fb44e06441d6"
     Publisher="CN=dawnc"
-    Version="1.0.0.0" />
+    Version="0.1.0.0" />
     
   <mp:PhoneIdentity PhoneProductId="75f06015-b4a4-4399-961d-fb44e06441d6" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
     
@@ -63,6 +63,7 @@
 
   <Capabilities>
     <rescap:Capability Name="runFullTrust" />
+    <Capability Name="internetClient"/>
   </Capabilities>
 
   <genTemplate:Metadata>

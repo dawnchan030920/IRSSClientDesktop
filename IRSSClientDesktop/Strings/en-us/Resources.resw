@@ -234,4 +234,7 @@
   <data name="Article_Delete.Label" xml:space="preserve">
     <value>Delete</value>
   </data>
+  <data name="Shell_ArticleDetail.Content" xml:space="preserve">
+    <value>ArticleDetail</value>
+  </data>
 </root>

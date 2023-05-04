@@ -1,0 +1,52 @@
+﻿<Page
+    x:Class="IRSSClientDesktop.Views.QQPage"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    xmlns:models="using:IRSSClientDesktop.Core.Models"
+    mc:Ignorable="d">
+
+    <Grid x:Name="ContentArea">
+        <ListView ItemsSource="{x:Bind ViewModel.Accounts, Mode=TwoWay}" SelectionMode="Single" SelectedItem="{x:Bind ViewModel.SelectedAccount, Mode=TwoWay}">
+            <ListView.ItemTemplate>
+                <DataTemplate x:DataType="models:AccountData">
+                    <StackPanel Orientation="Horizontal" Spacing="8">
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE77B;" />
+                        <TextBlock Text="{x:Bind Username, Mode=OneWay}" TextWrapping="WrapWholeWords" Tag="{x:Bind Id}" />
+                    </StackPanel>
+                </DataTemplate>
+            </ListView.ItemTemplate>
+            <ListView.Footer>
+                <Grid Grid.ColumnSpacing="16">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*" />
+                        <ColumnDefinition Width="Auto" />
+                    </Grid.ColumnDefinitions>
+                    <Grid ColumnSpacing="16" Grid.Column="0" VerticalAlignment="Center">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+                        <TextBox PlaceholderText="账号" Text="{x:Bind ViewModel.InputUsername, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="120" />
+                        <PasswordBox Grid.Column="1" PlaceholderText="密码" Password="{x:Bind ViewModel.InputPassword, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" MinWidth="120" />
+                    </Grid>
+                    <CommandBar DefaultLabelPosition="Collapsed" Grid.Column="1" VerticalAlignment="Center">
+                        <AppBarButton Label="添加" Command="{x:Bind ViewModel.AddAccountCommand}">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE710;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                        <AppBarButton Label="删除" Command="{x:Bind ViewModel.DeleteAccountCommand}">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE74D;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar>
+                </Grid>
+            </ListView.Footer>
+        </ListView>
+    </Grid>
+</Page>

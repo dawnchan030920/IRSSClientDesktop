@@ -86,22 +86,22 @@
 
                 <NavigationViewItemSeparator />
 
-                <NavigationViewItem x:Uid="Shell_QQ">
+                <NavigationViewItem x:Uid="Shell_QQ" helpers:NavigationHelper.NavigateTo="IRSSClientDesktop.ViewModels.QQViewModel">
                     <NavigationViewItem.Icon>
                         <PathIcon Data="{StaticResource QQ}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_WeChat">
+                <NavigationViewItem x:Uid="Shell_WeChat" helpers:NavigationHelper.NavigateTo="IRSSClientDesktop.ViewModels.WechatViewModel">
                     <NavigationViewItem.Icon>
                         <PathIcon Data="{StaticResource WeChat}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_Zhihu">
+                <NavigationViewItem x:Uid="Shell_Zhihu" helpers:NavigationHelper.NavigateTo="IRSSClientDesktop.ViewModels.ZhihuViewModel">
                     <NavigationViewItem.Icon>
                         <PathIcon Data="{StaticResource Zhihu}" />
                     </NavigationViewItem.Icon>
                 </NavigationViewItem>
-                <NavigationViewItem x:Uid="Shell_Bilibili">
+                <NavigationViewItem x:Uid="Shell_Bilibili" helpers:NavigationHelper.NavigateTo="IRSSClientDesktop.ViewModels.BilibiliViewModel">
                     <NavigationViewItem.Icon>
                         <PathIcon Data="{StaticResource Bilibili}" />
                     </NavigationViewItem.Icon>

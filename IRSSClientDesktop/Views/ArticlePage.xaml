@@ -7,17 +7,30 @@
     xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
     xmlns:viewModels="using:IRSSClientDesktop.ViewModels"
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:irssconverters="using:IRSSClientDesktop.Converters"
+    xmlns:models="using:IRSSClientDesktop.Core.Models"
+    xmlns:ui="using:CommunityToolkit.WinUI.UI"
     behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
     mc:Ignorable="d">
 
+    <Page.Resources>
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <irssconverters:PlatformToStringConverter x:Key="PlatformToStringConverter" />
+    </Page.Resources>
+
     <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
         <DataTemplate x:DataType="viewModels:ArticleViewModel">
-            <Grid Padding="0,0,56,0" ColumnSpacing="16">
+            <Grid Padding="0,0,56,0" ColumnSpacing="16" RowSpacing="8">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="Auto" />
                     <ColumnDefinition Width="1*" />
                 </Grid.ColumnDefinitions>
-                <StackPanel Grid.Column="0">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Column="0" Grid.Row="0">
                     <TextBlock x:Uid="Article_Header" Style="{StaticResource TitleTextBlockStyle}" />
                     <TextBlock Style="{StaticResource BodyTextBlockStyle}" Opacity="0.8">
                         <Run x:Uid="TotalityStart" />
@@ -25,16 +38,16 @@
                         <Run x:Uid="TotalityEnd" />
                     </TextBlock>
                 </StackPanel>
-                <CommandBar Grid.Column="1" DefaultLabelPosition="Right" VerticalAlignment="Bottom" Background="Transparent">
+                <CommandBar Grid.Column="1" DefaultLabelPosition="Right" VerticalAlignment="Bottom" Background="Transparent" Grid.Row="0">
                     <CommandBar.PrimaryCommands>
                         <AppBarElementContainer VerticalAlignment="Center" Margin="0,0,2,0">
-                            <AutoSuggestBox Width="240" VerticalAlignment="Center" QueryIcon="Find" />
+                            <AutoSuggestBox Width="240" VerticalAlignment="Center" QueryIcon="Find" Text="{x:Bind FilterText, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" />
                         </AppBarElementContainer>
-                        <AppBarButton x:Uid="Article_FilterAppButton">
-                            <AppBarButton.Icon>
+                        <AppBarToggleButton x:Uid="Article_FilterAppButton" IsChecked="{x:Bind IsFilterOpen, Mode=TwoWay}">
+                            <AppBarToggleButton.Icon>
                                 <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE71C;" />
-                            </AppBarButton.Icon>
-                        </AppBarButton>
+                            </AppBarToggleButton.Icon>
+                        </AppBarToggleButton>
                         <AppBarSeparator />
                         <AppBarToggleButton x:Uid="Article_TopicAppButton" IsChecked="{x:Bind IsTopicPanelOpen, Mode=TwoWay}">
                             <AppBarToggleButton.Icon>
@@ -43,6 +56,22 @@
                         </AppBarToggleButton>
                     </CommandBar.PrimaryCommands>
                 </CommandBar>
+                <Grid Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2" ColumnSpacing="16" Visibility="{x:Bind IsFilterOpen, Converter={StaticResource BoolToVisibilityConverter}, Mode=OneWay}">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="*"/>
+                        <ColumnDefinition Width="Auto"/>
+                    </Grid.ColumnDefinitions>
+                    <ScrollViewer HorizontalScrollMode="Auto" VerticalScrollMode="Disabled" Grid.Column="0">
+                        <labs:TokenView Grid.Row="0" ItemsSource="{x:Bind FilterTopics, Mode=OneWay}" SelectedItem="{x:Bind FilterTopic, Mode=TwoWay}" />
+                    </ScrollViewer>
+                    <CommandBar DefaultLabelPosition="Right" Grid.Column="1">
+                        <AppBarButton Label="清除" Command="{x:Bind ClearFilterTopicCommand}">
+                            <AppBarButton.Icon>
+                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE894;" />
+                            </AppBarButton.Icon>
+                        </AppBarButton>
+                    </CommandBar>
+                </Grid>
             </Grid>
         </DataTemplate>
     </behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
@@ -63,6 +92,39 @@
         <SplitView x:Name="ArticleSplitView" IsPaneOpen="{x:Bind ViewModel.IsTopicPanelOpen, Mode=TwoWay}" PanePlacement="Right" PaneBackground="Transparent">
             <SplitView.Content>
                 <Grid>
+                    <ListView Margin="24,0" ItemsSource="{x:Bind ViewModel.FilteredArticles, Mode=TwoWay}" ui:ListViewExtensions.Command="{x:Bind ViewModel.NavigateToArticleDetailCommand}" IsItemClickEnabled="True">
+                        <ListView.ItemTemplate>
+                            <DataTemplate x:DataType="models:ArticleData">
+                                <StackPanel Margin="8">
+                                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                    <TextBlock Text="{x:Bind Content, Mode=OneWay}" TextTrimming="WordEllipsis" />
+                                    <labs:TokenView SelectionMode="None" Opacity=".6" Margin="0,4,0,0" IsWrapped="True">
+                                        <labs:TokenItem>
+                                            <labs:TokenItem.Content>
+                                                <TextBlock Text="{x:Bind PlatformMapped, Mode=OneWay, Converter={StaticResource PlatformToStringConverter}}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            </labs:TokenItem.Content>
+                                        </labs:TokenItem>
+                                        <labs:TokenItem>
+                                            <labs:TokenItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8EC;" FontSize="8" />
+                                            </labs:TokenItem.Icon>
+                                            <labs:TokenItem.Content>
+                                                <TextBlock Text="{x:Bind Topic, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            </labs:TokenItem.Content>
+                                        </labs:TokenItem>
+                                        <labs:TokenItem>
+                                            <labs:TokenItem.Icon>
+                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE823;" FontSize="8" />
+                                            </labs:TokenItem.Icon>
+                                            <labs:TokenItem.Content>
+                                                <TextBlock Text="{x:Bind Time, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                            </labs:TokenItem.Content>
+                                        </labs:TokenItem>
+                                    </labs:TokenView>
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListView.ItemTemplate>
+                    </ListView>
                 </Grid>
             </SplitView.Content>
             <SplitView.Pane>
@@ -75,7 +137,7 @@
                                 <RowDefinition Height="Auto" />
                             </Grid.RowDefinitions>
                             <TextBlock x:Uid="Article_TopicPanelHeader" Style="{ThemeResource SubtitleTextBlockStyle}" Margin="0,0,0,8" Grid.Row="0" />
-                            <labs:TokenView Grid.Row="1" CanRemoveTokens="True" ItemsSource="{x:Bind ViewModel.Topics}" IsWrapped="True" VerticalAlignment="Top" SelectionMode="None">
+                            <labs:TokenView Grid.Row="1" CanRemoveTokens="True" ItemsSource="{x:Bind ViewModel.PanelTopics}" IsWrapped="True" VerticalAlignment="Top" SelectionMode="None">
                                 <labs:TokenView.ItemTemplate>
                                     <DataTemplate x:DataType="x:String">
                                         <Grid>

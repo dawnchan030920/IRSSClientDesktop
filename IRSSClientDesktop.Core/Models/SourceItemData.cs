@@ -14,13 +14,13 @@ public class SourceItemData
         set;
     }
 
-    public SourcePlatform Platform
+    public Platform Platform
     {
         get;
         set;
     }
 
-    public override string ToString() => $"{Enum.GetName(typeof(SourcePlatform), Platform)} - {Account}";
+    public override string ToString() => $"{Enum.GetName(typeof(Platform), Platform)} - {Account}";
 
     public override bool Equals(object obj) => obj is SourceItemData other && Account == other.Account && Platform == other.Platform;
 }

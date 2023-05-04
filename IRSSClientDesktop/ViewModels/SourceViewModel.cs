@@ -10,7 +10,7 @@ public partial class SourceViewModel : ObservableRecipient, INavigationAware
     private string _account;
 
     [ObservableProperty]
-    private SourcePlatform _platform;
+    private Platform _platform;
 
     public SourceViewModel()
     {

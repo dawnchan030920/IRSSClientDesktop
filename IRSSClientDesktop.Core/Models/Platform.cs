@@ -1,6 +1,6 @@
 ﻿namespace IRSSClientDesktop.Core.Models;
 
-public enum SourcePlatform
+public enum Platform
 {
     QQ,
     Zhihu,

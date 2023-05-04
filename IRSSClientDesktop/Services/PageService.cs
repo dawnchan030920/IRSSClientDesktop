@@ -22,6 +22,11 @@ public class PageService : IPageService
         Configure<AnswerViewModel, AnswerPage>();
         Configure<FavoriteViewModel, FavoritePage>();
         Configure<NoteViewModel, NotePage>();
+        Configure<QQViewModel, QQPage>();
+        Configure<WechatViewModel, WechatPage>();
+        Configure<ZhihuViewModel, ZhihuPage>();
+        Configure<BilibiliViewModel, BilibiliPage>();
+        Configure<ArticleDetailViewModel, ArticleDetailPage>();
     }
 
     public Type GetPageType(string key)

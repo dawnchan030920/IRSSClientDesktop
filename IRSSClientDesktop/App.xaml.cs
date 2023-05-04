@@ -70,6 +70,16 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
+            services.AddTransient<ArticleDetailViewModel>();
+            services.AddTransient<ArticleDetailPage>();
+            services.AddTransient<BilibiliViewModel>();
+            services.AddTransient<BilibiliPage>();
+            services.AddTransient<ZhihuViewModel>();
+            services.AddTransient<ZhihuPage>();
+            services.AddTransient<WechatViewModel>();
+            services.AddTransient<WechatPage>();
+            services.AddTransient<QQViewModel>();
+            services.AddTransient<QQPage>();
             services.AddTransient<NoteViewModel>();
             services.AddTransient<NotePage>();
             services.AddTransient<FavoriteViewModel>();
