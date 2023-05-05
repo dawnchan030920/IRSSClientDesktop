@@ -105,7 +105,10 @@
                                 </ScrollViewer>
                             </controls:Case>
                         </controls:SwitchPresenter>
-                        <Button Command="{x:Bind ViewModel.AddNoteCommand}" HorizontalAlignment="Right" Grid.Row="2">上传笔记</Button>
+                        <StackPanel Grid.Row="2" HorizontalAlignment="Right" Spacing="16" Orientation="Horizontal">
+                            <TextBlock Text="{x:Bind ViewModel.Time, Mode=OneWay}" Opacity=".8" VerticalAlignment="Center" />
+                            <Button Command="{x:Bind ViewModel.AddNoteCommand}" VerticalAlignment="Center">上传笔记</Button>
+                        </StackPanel>
                     </Grid>
                 </Border>
             </Grid>

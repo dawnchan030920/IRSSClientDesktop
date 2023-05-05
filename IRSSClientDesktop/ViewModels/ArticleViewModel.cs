@@ -161,6 +161,9 @@ public partial class ArticleViewModel : ObservableRecipient
 
         FilteredArticles = new AdvancedCollectionView(_articles, true);
 
+        FilteredArticles.SortDescriptions.Add(new SortDescription("Time", SortDirection.Descending));
+        FilteredArticles.SortDescriptions.Add(new SortDescription("Title", SortDirection.Ascending));
+
         ArticleCount = _articles.Count;
     }
     
