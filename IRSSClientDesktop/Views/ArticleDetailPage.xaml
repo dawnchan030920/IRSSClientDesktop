@@ -9,7 +9,6 @@
     xmlns:labs="using:CommunityToolkit.Labs.WinUI"
     xmlns:irssconverters="using:IRSSClientDesktop.Converters"
     xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
-    xmlns:webview="using:Microsoft.Web"
     behavior:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel, Mode=OneWay}"
     mc:Ignorable="d">
 
@@ -54,7 +53,9 @@
     </behavior:NavigationViewHeaderBehavior.HeaderTemplate>
 
     <SplitView x:Name="ContentArea" PanePlacement="Right" IsPaneOpen="{x:Bind ViewModel.IsNotePaneOpen, Mode=TwoWay}" DisplayMode="Inline" PaneBackground="Transparent">
-        <TextBlock Text="{x:Bind ViewModel.Content, Mode=OneWay}" TextWrapping="WrapWholeWords" Padding="0,0,24,0" />
+        <ScrollViewer Padding="0,0,24,0">
+            <TextBlock Text="{x:Bind ViewModel.Content, Mode=OneWay}" TextWrapping="WrapWholeWords" />
+        </ScrollViewer>
         <!--<controls:SwitchPresenter Value="{x:Bind ViewModel.MediaType, Mode=OneWay}">
             <controls:Case Value="Words">
                 <Grid>

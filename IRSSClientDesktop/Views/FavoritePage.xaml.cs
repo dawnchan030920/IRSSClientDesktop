@@ -18,12 +18,4 @@ public sealed partial class FavoritePage : Page
         ViewModel = App.GetService<FavoriteViewModel>();
         InitializeComponent();
     }
-
-    private void OnViewStateChanged(object sender, ListDetailsViewState e)
-    {
-        if (e == ListDetailsViewState.Both)
-        {
-            ViewModel.EnsureItemSelected();
-        }
-    }
 }
