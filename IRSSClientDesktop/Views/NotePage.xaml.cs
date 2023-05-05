@@ -1,7 +1,7 @@
 ﻿using CommunityToolkit.WinUI.UI.Controls;
 
 using IRSSClientDesktop.ViewModels;
-
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 
 namespace IRSSClientDesktop.Views;
@@ -19,11 +19,8 @@ public sealed partial class NotePage : Page
         InitializeComponent();
     }
 
-    private void OnViewStateChanged(object sender, ListDetailsViewState e)
+    private void UploadNoteButton_Clicked(object sender, RoutedEventArgs e)
     {
-        if (e == ListDetailsViewState.Both)
-        {
-            ViewModel.EnsureItemSelected();
-        }
+        ViewModel.UploadNoteCommand.Execute(null);
     }
 }

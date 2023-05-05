@@ -1,53 +1,62 @@
 ﻿using System.Collections.ObjectModel;
 
 using CommunityToolkit.Mvvm.ComponentModel;
-
+using CommunityToolkit.Mvvm.Input;
+using IRSSClientDesktop.Contracts.Services;
 using IRSSClientDesktop.Contracts.ViewModels;
 using IRSSClientDesktop.Core.Contracts.Services;
 using IRSSClientDesktop.Core.Models;
+using IRSSClientDesktop.ObservableModels;
 
 namespace IRSSClientDesktop.ViewModels;
 
-public class NoteViewModel : ObservableRecipient, INavigationAware
+public partial class NoteViewModel : ObservableRecipient
 {
-    private readonly ISampleDataService _sampleDataService;
-    private SampleOrder? _selected;
-
-    public SampleOrder? Selected
+    private INavigationService _navigationService;
+    
+    public ObservableCollection<ObservableNoteData> Notes
     {
-        get => _selected;
-        set => SetProperty(ref _selected, value);
+        get;
+        set;
     }
 
-    public ObservableCollection<SampleOrder> SampleItems { get; private set; } = new ObservableCollection<SampleOrder>();
+    [ObservableProperty]
+    private ObservableNoteData _selectedNode;
 
-    public NoteViewModel(ISampleDataService sampleDataService)
+    [RelayCommand]
+    private void OpenArticle()
     {
-        _sampleDataService = sampleDataService;
-    }
-
-    public async void OnNavigatedTo(object parameter)
-    {
-        SampleItems.Clear();
-
-        // TODO: Replace with real data.
-        var data = await _sampleDataService.GetListDetailsDataAsync();
-
-        foreach (var item in data)
+        // TODO: Use content management service.
+        _navigationService.NavigateTo(typeof(ArticleDetailViewModel).FullName!, new ArticleData()
         {
-            SampleItems.Add(item);
-        }
+            Title = SelectedNode.ArticleTitle,
+            Content = "Sample Content",
+            MediaType = "video",
+            Id = SelectedNode.Id,
+            Platform = "wechat",
+            Time = new DateTime(2019,12,3),
+            Topic = "Test"
+        });
     }
 
-    public void OnNavigatedFrom()
+    [RelayCommand]
+    private void UploadNote()
     {
+        // TODO: Do something.
     }
 
-    public void EnsureItemSelected()
+    public NoteViewModel(INavigationService navigationService)
     {
-        if (Selected == null)
+        _navigationService = navigationService;
+
+        Notes = new ObservableCollection<ObservableNoteData>()
         {
-            Selected = SampleItems.First();
-        }
+            new(new()
+            {
+                Id = "1",
+                Content = "# This is the Header",
+                Time = new DateTime(2022, 1, 2)
+            })
+        };
     }
 }

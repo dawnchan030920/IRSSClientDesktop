@@ -8,93 +8,75 @@
     xmlns:models="using:IRSSClientDesktop.Core.Models"
     xmlns:views="using:IRSSClientDesktop.Views"
     xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
-    behaviors:NavigationViewHeaderBehavior.HeaderMode="Never"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:observableModels="using:IRSSClientDesktop.ObservableModels"
     mc:Ignorable="d">
-    <Page.Resources>
-        <DataTemplate x:Key="ItemTemplate" x:DataType="models:SampleOrder">
-            <Grid Height="60">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="Auto" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <FontIcon
-                    Grid.Column="0"
-                    VerticalAlignment="Center"
-                    FontSize="32"
-                    Glyph="{x:Bind Symbol}"
-                    AutomationProperties.Name="{x:Bind SymbolName}" />
-                <StackPanel
-                    Grid.Column="1"
-                    Margin="{StaticResource SmallLeftMargin}"
-                    VerticalAlignment="Center">
-                    <TextBlock Text="{x:Bind Company}" Style="{StaticResource ListTitleStyle}" />
-                    <TextBlock Text="{x:Bind Status}" Style="{StaticResource ListSubTitleStyle}" />
-                </StackPanel>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="DetailsTemplate">
-            <Grid>
-                <views:NoteDetailControl ListDetailsMenuItem="{Binding}" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="NoSelectionContentTemplate">
-            <Grid>
-                <TextBlock
-                    x:Uid="Note_NoSelection"
-                    HorizontalAlignment="Center"
-                    VerticalAlignment="Center"
-                    TextAlignment="Center"
-                    Style="{ThemeResource SubtitleTextBlockStyle}" />
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="ListHeaderTemplate">
-            <Grid Height="40">
-                <TextBlock
-                    VerticalAlignment="Center"
-                    Style="{StaticResource ListTitleStyle}"
-                    Text="{Binding}" />
-            </Grid>
-        </DataTemplate>
-        <DataTemplate x:Key="MinimalListHeaderTemplate">
-            <Grid Height="40">
-                <TextBlock
-                    Margin="96,0,0,0"
-                    VerticalAlignment="Center"
-                    Style="{StaticResource ListTitleStyle}"
-                    Text="{Binding}" />
-            </Grid>
-        </DataTemplate>
-    </Page.Resources>
 
     <Grid x:Name="ContentArea">
-        <VisualStateManager.VisualStateGroups>
-            <VisualStateGroup>
-                <VisualState>
-                    <VisualState.StateTriggers>
-                        <!--641 is the default CompactModeThresholdWidth in NavigationView -->
-                        <AdaptiveTrigger MinWindowWidth="641" />
-                    </VisualState.StateTriggers>
-                    <VisualState.Setters>
-                        <Setter Target="ListDetailsViewControl.ListHeaderTemplate" Value="{StaticResource ListHeaderTemplate}" />
-                    </VisualState.Setters>
-                </VisualState>
-            </VisualStateGroup>
-        </VisualStateManager.VisualStateGroups>
-        <controls:ListDetailsView
-            x:Uid="Note"
-            x:Name="ListDetailsViewControl"
-            BackButtonBehavior="Manual"
-            Background="Transparent"
-            BorderBrush="Transparent"
-            DetailsTemplate="{StaticResource DetailsTemplate}"
-            ItemsSource="{x:Bind ViewModel.SampleItems}"
-            ItemTemplate="{StaticResource ItemTemplate}"
-            ListHeaderTemplate="{StaticResource MinimalListHeaderTemplate}"
-            NoSelectionContentTemplate="{StaticResource NoSelectionContentTemplate}"
-            SelectedItem="{x:Bind ViewModel.Selected, Mode=TwoWay}"
-            ViewStateChanged="OnViewStateChanged"/>
+        <controls:ListDetailsView ItemsSource="{x:Bind ViewModel.Notes, Mode=TwoWay}" SelectedItem="{x:Bind ViewModel.SelectedNode, Mode=TwoWay}" Background="Transparent" Margin="0,0,0,12">
+            <controls:ListDetailsView.ItemTemplate>
+                <DataTemplate x:DataType="observableModels:ObservableNoteData">
+                    <StackPanel Margin="8,12" Spacing="2">
+                        <TextBlock TextTrimming="WordEllipsis">
+                            <Bold><Run Text="{x:Bind ArticleTitle, Mode=OneWay}"></Run></Bold>
+                        </TextBlock>
+                        <TextBlock Text="{x:Bind Content, Mode=OneWay}" TextTrimming="WordEllipsis" />
+                        <TextBlock Text="{x:Bind Time, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                    </StackPanel>
+                </DataTemplate>
+            </controls:ListDetailsView.ItemTemplate>
+            <controls:ListDetailsView.DetailsTemplate>
+                <DataTemplate x:DataType="observableModels:ObservableNoteData">
+                    <Grid RowSpacing="16" Margin="36,0,0,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <TextBlock Text="{x:Bind ArticleTitle, Mode=OneWay}" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                        <labs:Segmented Grid.Row="1" x:Name="Segmented">
+                            <labs:SegmentedItem Content="编辑">
+                                <labs:SegmentedItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE70F;" />
+                                </labs:SegmentedItem.Icon>
+                            </labs:SegmentedItem>
+                            <labs:SegmentedItem Content="预览">
+                                <labs:SegmentedItem.Icon>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8FF;" />
+                                </labs:SegmentedItem.Icon>
+                            </labs:SegmentedItem>
+                        </labs:Segmented>
+                        <controls:SwitchPresenter Grid.Row="2" Value="{Binding ElementName=Segmented, Path=SelectedIndex, Mode=TwoWay}">
+                            <controls:Case>
+                                <controls:Case.Value>
+                                    <x:Int32>0</x:Int32>
+                                </controls:Case.Value>
+                                <TextBox TextWrapping="Wrap" AcceptsReturn="True" HorizontalAlignment="Stretch" VerticalAlignment="Stretch" Text="{x:Bind Content, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                            </controls:Case>
+                            <controls:Case>
+                                <controls:Case.Value>
+                                    <x:Int32>1</x:Int32>
+                                </controls:Case.Value>
+                                <controls:MarkdownTextBlock Background="Transparent" Margin="12,0" Text="{x:Bind Content, Mode=OneWay}" />
+                            </controls:Case>
+                        </controls:SwitchPresenter>
+                        <StackPanel Grid.Row="3" HorizontalAlignment="Right" Spacing="12" Orientation="Horizontal">
+                            <TextBlock Text="{x:Bind Time, Mode=OneWay}" VerticalAlignment="Center" Opacity=".8"/>
+                            <Button Click="UploadNoteButton_Clicked" Content="上传笔记" VerticalAlignment="Center"/>
+                        </StackPanel>
+                    </Grid>
+                </DataTemplate>
+            </controls:ListDetailsView.DetailsTemplate>
+            <controls:ListDetailsView.DetailsCommandBar>
+                <CommandBar DefaultLabelPosition="Right">
+                    <AppBarButton Label="打开文章" Command="{x:Bind ViewModel.OpenArticleCommand}">
+                        <AppBarButton.Icon>
+                            <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8A7;" />
+                        </AppBarButton.Icon>
+                    </AppBarButton>
+                </CommandBar>
+            </controls:ListDetailsView.DetailsCommandBar>
+        </controls:ListDetailsView>
     </Grid>
 </Page>
