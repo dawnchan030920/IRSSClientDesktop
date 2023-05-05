@@ -27,6 +27,8 @@ public class PageService : IPageService
         Configure<ZhihuViewModel, ZhihuPage>();
         Configure<BilibiliViewModel, BilibiliPage>();
         Configure<ArticleDetailViewModel, ArticleDetailPage>();
+        Configure<LoginViewModel, LoginPage>();
+        Configure<RegisterViewModel, RegisterPage>();
     }
 
     public Type GetPageType(string key)

@@ -11,12 +11,15 @@
     xmlns:irssconverters="using:IRSSClientDesktop.Converters"
     xmlns:models="using:IRSSClientDesktop.Core.Models"
     xmlns:ui="using:CommunityToolkit.WinUI.UI"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
     behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
     mc:Ignorable="d">
 
     <Page.Resources>
         <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
         <irssconverters:PlatformToStringConverter x:Key="PlatformToStringConverter" />
+        <irssconverters:FavoriteToCommandTextConverter x:Key="FavoriteToCommandTextConverter" />
+        <irssconverters:FavoriteToCommandIconConverter x:Key="FavoriteToCommandIconConverter"/>
     </Page.Resources>
 
     <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
@@ -95,33 +98,44 @@
                     <ListView Margin="24,0" ItemsSource="{x:Bind ViewModel.FilteredArticles, Mode=TwoWay}" ui:ListViewExtensions.Command="{x:Bind ViewModel.NavigateToArticleDetailCommand}" IsItemClickEnabled="True">
                         <ListView.ItemTemplate>
                             <DataTemplate x:DataType="models:ArticleData">
-                                <StackPanel Margin="8">
-                                    <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" Style="{ThemeResource SubtitleTextBlockStyle}" />
-                                    <TextBlock Text="{x:Bind Content, Mode=OneWay}" TextTrimming="WordEllipsis" />
-                                    <labs:TokenView SelectionMode="None" Opacity=".6" Margin="0,4,0,0" IsWrapped="True">
-                                        <labs:TokenItem>
-                                            <labs:TokenItem.Content>
-                                                <TextBlock Text="{x:Bind PlatformMapped, Mode=OneWay, Converter={StaticResource PlatformToStringConverter}}" Style="{ThemeResource CaptionTextBlockStyle}" />
-                                            </labs:TokenItem.Content>
-                                        </labs:TokenItem>
-                                        <labs:TokenItem>
-                                            <labs:TokenItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8EC;" FontSize="8" />
-                                            </labs:TokenItem.Icon>
-                                            <labs:TokenItem.Content>
-                                                <TextBlock Text="{x:Bind Topic, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
-                                            </labs:TokenItem.Content>
-                                        </labs:TokenItem>
-                                        <labs:TokenItem>
-                                            <labs:TokenItem.Icon>
-                                                <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE823;" FontSize="8" />
-                                            </labs:TokenItem.Icon>
-                                            <labs:TokenItem.Content>
-                                                <TextBlock Text="{x:Bind Time, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
-                                            </labs:TokenItem.Content>
-                                        </labs:TokenItem>
-                                    </labs:TokenView>
-                                </StackPanel>
+                                <Grid Margin="8">
+                                    <StackPanel>
+                                        <TextBlock Text="{x:Bind Title, Mode=OneWay}" TextWrapping="WrapWholeWords" Style="{ThemeResource SubtitleTextBlockStyle}" />
+                                        <TextBlock Text="{x:Bind Content, Mode=OneWay}" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords" MaxLines="3" />
+                                        <labs:TokenView SelectionMode="None" Opacity=".6" Margin="0,4,0,0" IsWrapped="True">
+                                            <labs:TokenItem>
+                                                <labs:TokenItem.Content>
+                                                    <TextBlock Text="{x:Bind PlatformMapped, Mode=OneWay, Converter={StaticResource PlatformToStringConverter}}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                </labs:TokenItem.Content>
+                                            </labs:TokenItem>
+                                            <labs:TokenItem>
+                                                <labs:TokenItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8EC;" FontSize="8" />
+                                                </labs:TokenItem.Icon>
+                                                <labs:TokenItem.Content>
+                                                    <TextBlock Text="{x:Bind Topic, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                </labs:TokenItem.Content>
+                                            </labs:TokenItem>
+                                            <labs:TokenItem>
+                                                <labs:TokenItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE823;" FontSize="8" />
+                                                </labs:TokenItem.Icon>
+                                                <labs:TokenItem.Content>
+                                                    <TextBlock Text="{x:Bind Time, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
+                                                </labs:TokenItem.Content>
+                                            </labs:TokenItem>
+                                        </labs:TokenView>
+                                    </StackPanel>
+                                    <Grid.ContextFlyout>
+                                        <MenuFlyout>
+                                            <MenuFlyoutItem Text="{x:Bind IsFavorite, Converter={StaticResource FavoriteToCommandTextConverter}}" Tag="{x:Bind}" Click="ArticleFavorite_Click">
+                                                <MenuFlyoutItem.Icon>
+                                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="{x:Bind IsFavorite, Converter={StaticResource FavoriteToCommandIconConverter}}" />
+                                                </MenuFlyoutItem.Icon>
+                                            </MenuFlyoutItem>
+                                        </MenuFlyout>
+                                    </Grid.ContextFlyout>
+                                </Grid>
                             </DataTemplate>
                         </ListView.ItemTemplate>
                     </ListView>

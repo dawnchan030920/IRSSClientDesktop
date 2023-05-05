@@ -5,39 +5,34 @@ using System.Text;
 using System.Threading.Tasks;
 
 namespace IRSSClientDesktop.Core.Models;
-public class MessageTopicNotificationData
-{
-    public string Content
-    {
-        get;
-        set;
-    }
 
+public class FavoriteData
+{
     public DateTime Time
     {
         get;
         set;
     }
 
-    public string Topic
+    public string Content
     {
         get;
         set;
     }
 
-    public string OriginalContent
+    public string Source
+    {
+        get;
+        set;
+    }
+
+    public FavoriteType Type
     {
         get;
         set;
     }
 
     public string Id
-    {
-        get;
-        set;
-    }
-
-    public bool IsFavorite
     {
         get;
         set;

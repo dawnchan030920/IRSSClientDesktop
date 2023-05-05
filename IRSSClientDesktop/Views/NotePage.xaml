@@ -20,7 +20,7 @@
                         <TextBlock TextTrimming="WordEllipsis">
                             <Bold><Run Text="{x:Bind ArticleTitle, Mode=OneWay}"></Run></Bold>
                         </TextBlock>
-                        <TextBlock Text="{x:Bind Content, Mode=OneWay}" TextTrimming="WordEllipsis" />
+                        <TextBlock Text="{x:Bind Content, Mode=OneWay}" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords" MaxLines="3" />
                         <TextBlock Text="{x:Bind Time, Mode=OneWay}" Style="{ThemeResource CaptionTextBlockStyle}" />
                     </StackPanel>
                 </DataTemplate>

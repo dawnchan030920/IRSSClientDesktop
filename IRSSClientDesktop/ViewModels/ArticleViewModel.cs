@@ -172,6 +172,7 @@ public partial class ArticleViewModel : ObservableRecipient
         _isTopicPredicate = article => value == null || article.Topic == value;
 
         FilteredArticles.Filter = o => o is ArticleData article && _isTopicPredicate.Invoke(article) && _containTextPredicate.Invoke(article);
+        FilteredArticles.RefreshFilter();
     }
 
     partial void OnFilterTextChanged(string? value)
@@ -179,5 +180,6 @@ public partial class ArticleViewModel : ObservableRecipient
         _containTextPredicate = article => value == null || article.Title.ToLower().Contains(value.ToLower()) || article.Content.ToLower().Contains(value.ToLower());
 
         FilteredArticles.Filter = o => o is ArticleData article && _isTopicPredicate.Invoke(article) && _containTextPredicate.Invoke(article);
+        FilteredArticles.RefreshFilter();
     }
 }

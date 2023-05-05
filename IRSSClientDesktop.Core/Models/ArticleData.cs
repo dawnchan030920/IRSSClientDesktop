@@ -70,4 +70,10 @@ public class ArticleData
             else return Models.MediaType.Words;
         }
     }
+
+    public bool IsFavorite
+    {
+        get;
+        set;
+    }
 }

@@ -36,4 +36,10 @@ public class MessageMentionNotificationData
         get;
         set;
     }
+
+    public bool IsFavorite
+    {
+        get;
+        set;
+    }
 }

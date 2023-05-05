@@ -6,18 +6,143 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:behaviors="using:IRSSClientDesktop.Behaviors"
     xmlns:viewModels="using:IRSSClientDesktop.ViewModels"
+    xmlns:controls="using:CommunityToolkit.WinUI.UI.Controls"
+    xmlns:labs="using:CommunityToolkit.Labs.WinUI"
+    xmlns:models="using:IRSSClientDesktop.Core.Models"
     behaviors:NavigationViewHeaderBehavior.HeaderContext="{x:Bind ViewModel}"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-
-    </Grid>
-
     <behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
         <DataTemplate x:DataType="viewModels:HomeViewModel">
-            <Grid>
-                <TextBlock Style="{StaticResource TitleTextBlockStyle}" Text="Hello, User!" />
+            <Grid Padding="0,0,56,0">
+                <controls:SwitchPresenter Value="{x:Bind IsLoggedIn, Mode=TwoWay}">
+                    <controls:Case>
+                        <controls:Case.Value>
+                            <x:Boolean>True</x:Boolean>
+                        </controls:Case.Value>
+                        <TextBlock Style="{ThemeResource TitleTextBlockStyle}">
+                            <Run Text="您好，"/>
+                            <Run Text="{x:Bind Username}" />
+                            <Run Text="！"></Run>
+                        </TextBlock>
+                    </controls:Case>
+                    <controls:Case>
+                        <controls:Case.Value>
+                            <x:Boolean>False</x:Boolean>
+                        </controls:Case.Value>
+                        <TextBlock Style="{ThemeResource TitleTextBlockStyle}">欢迎使用 IRSS！</TextBlock>
+                    </controls:Case>
+                </controls:SwitchPresenter>
             </Grid>
         </DataTemplate>
     </behaviors:NavigationViewHeaderBehavior.HeaderTemplate>
+
+    <Grid x:Name="ContentArea">
+        <controls:SwitchPresenter Value="{x:Bind ViewModel.IsLoggedIn, Mode=TwoWay}">
+            <controls:Case>
+                <controls:Case.Value>
+                    <x:Boolean>True</x:Boolean>
+                </controls:Case.Value>
+                <ScrollViewer>
+                    <StackPanel Spacing="8">
+                        <StackPanel Spacing="4">
+                            <labs:SettingsCard Header="文章" IsClickEnabled="True" Description="广义上的任何“文章”——即时性比消息弱的文字、视频等" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.ArticleViewModel">
+                                <labs:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF000;"/>
+                                </labs:SettingsCard.HeaderIcon>
+                            </labs:SettingsCard>
+                            <controls:AdaptiveGridView ItemsSource="{x:Bind ViewModel.Articles, Mode=OneWay}" DesiredWidth="260" ItemHeight="200" OneRowModeEnabled="True" StretchContentForSingleRow="False">
+                                <controls:AdaptiveGridView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:ArticleData">
+                                        <Grid BorderBrush="Transparent" BorderThickness="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="8">
+                                            <StackPanel HorizontalAlignment="Center" VerticalAlignment="Top">
+                                                <TextBlock Text="{x:Bind Title}" TextTrimming="WordEllipsis" TextWrapping="NoWrap" HorizontalAlignment="Center" />
+                                                <TextBlock Text="{x:Bind Content}" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords" MaxLines="3" Opacity=".8" HorizontalAlignment="Center" />
+                                            </StackPanel>
+                                            <labs:TokenView SelectionMode="None" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                                                <labs:TokenItem Content="{x:Bind Topic}" />
+                                            </labs:TokenView>
+                                        </Grid>
+                                    </DataTemplate>
+                                </controls:AdaptiveGridView.ItemTemplate>
+                            </controls:AdaptiveGridView>
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <labs:SettingsCard Header="消息订阅" IsClickEnabled="True" Description="按您所关心的主题智能过滤的即使消息" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.MessageViewModel">
+                                <labs:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8EC;"/>
+                                </labs:SettingsCard.HeaderIcon>
+                            </labs:SettingsCard>
+                            <controls:AdaptiveGridView ItemsSource="{x:Bind ViewModel.MessageTopicNotifications, Mode=OneWay}" DesiredWidth="260" ItemHeight="200" OneRowModeEnabled="True" StretchContentForSingleRow="False">
+                                <controls:AdaptiveGridView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:MessageTopicNotificationData">
+                                        <Grid BorderBrush="Transparent" BorderThickness="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="8">
+                                            <TextBlock Text="{x:Bind Content}" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords" MaxLines="3" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                            <labs:TokenView SelectionMode="None" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                                                <labs:TokenItem Content="{x:Bind Topic}" />
+                                            </labs:TokenView>
+                                        </Grid>
+                                    </DataTemplate>
+                                </controls:AdaptiveGridView.ItemTemplate>
+                            </controls:AdaptiveGridView>
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <labs:SettingsCard Header="消息通知" IsClickEnabled="True" Description="您所添加账号接受到的强通知" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.MessageViewModel">
+                                <labs:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE910;"/>
+                                </labs:SettingsCard.HeaderIcon>
+                            </labs:SettingsCard>
+                            <controls:AdaptiveGridView ItemsSource="{x:Bind ViewModel.MessageMentionNotifications, Mode=OneWay}" DesiredWidth="260" ItemHeight="200" OneRowModeEnabled="True" StretchContentForSingleRow="False">
+                                <controls:AdaptiveGridView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:MessageMentionNotificationData">
+                                        <Grid BorderBrush="Transparent" BorderThickness="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="8">
+                                            <TextBlock Text="{x:Bind Content}" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords" MaxLines="3" HorizontalAlignment="Center" VerticalAlignment="Top"  />
+                                            <labs:TokenView SelectionMode="None" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                                                <labs:TokenItem Content="{x:Bind Username}" />
+                                            </labs:TokenView>
+                                        </Grid>
+                                    </DataTemplate>
+                                </controls:AdaptiveGridView.ItemTemplate>
+                            </controls:AdaptiveGridView>
+                        </StackPanel>
+                        <StackPanel Spacing="4">
+                            <labs:SettingsCard Header="消息综述" IsClickEnabled="True" Description="智能总结正在发生的对话" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.MessageViewModel">
+                                <labs:SettingsCard.HeaderIcon>
+                                    <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8BC;"/>
+                                </labs:SettingsCard.HeaderIcon>
+                            </labs:SettingsCard>
+                            <controls:AdaptiveGridView ItemsSource="{x:Bind ViewModel.MessageSummaries, Mode=OneWay}" DesiredWidth="260" ItemHeight="200" OneRowModeEnabled="True" StretchContentForSingleRow="False">
+                                <controls:AdaptiveGridView.ItemTemplate>
+                                    <DataTemplate x:DataType="models:MessageSummaryData">
+                                        <Grid BorderBrush="Transparent" BorderThickness="1" Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" Padding="8">
+                                            <TextBlock Text="{x:Bind Summary}" TextTrimming="WordEllipsis" TextWrapping="WrapWholeWords" MaxLines="3" HorizontalAlignment="Center" VerticalAlignment="Top" />
+                                            <labs:TokenView SelectionMode="None" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                                                <labs:TokenItem Content="{x:Bind Group}" />
+                                            </labs:TokenView>
+                                        </Grid>
+                                    </DataTemplate>
+                                </controls:AdaptiveGridView.ItemTemplate>
+                            </controls:AdaptiveGridView>
+                        </StackPanel>
+                    </StackPanel>
+                </ScrollViewer>
+            </controls:Case>
+            <controls:Case>
+                <controls:Case.Value>
+                    <x:Boolean>False</x:Boolean>
+                </controls:Case.Value>
+                <Grid RowSpacing="24">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="2*"/>
+                        <RowDefinition Height="5*"/>
+                    </Grid.RowDefinitions>
+                    <TextBlock Text="您暂未登录" Style="{ThemeResource TitleTextBlockStyle}" VerticalAlignment="Bottom" HorizontalAlignment="Center" />
+                    <StackPanel Grid.Row="1" Orientation="Horizontal" Spacing="16" VerticalAlignment="Top" HorizontalAlignment="Center">
+                        <Button Content="登录" Click="LoginButton_Click"/>
+                        <Button Content="注册" Click="RegisterButton_Click"/>
+                    </StackPanel>
+                </Grid>
+            </controls:Case>
+        </controls:SwitchPresenter>
+    </Grid>
 </Page>

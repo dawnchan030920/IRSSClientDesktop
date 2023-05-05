@@ -24,4 +24,10 @@ public class MessageSummaryData
         get;
         set;
     }
+
+    public bool IsFavorite
+    {
+        get;
+        set;
+    }
 }
