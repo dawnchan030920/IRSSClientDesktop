@@ -2,11 +2,12 @@
 using CommunityToolkit.Mvvm.ComponentModel;
 using CommunityToolkit.Mvvm.Input;
 using CommunityToolkit.WinUI.UI;
+using IRSSClientDesktop.Contracts.ViewModels;
 using IRSSClientDesktop.Core.Models;
 
 namespace IRSSClientDesktop.ViewModels;
 
-public partial class MessageViewModel : ObservableRecipient
+public partial class MessageViewModel : ObservableRecipient, INavigationAware
 {
     private ObservableCollection<MessageTopicNotificationData> _topicNotifications;
 
@@ -102,5 +103,18 @@ public partial class MessageViewModel : ObservableRecipient
     private void UpdateFilter(string? value)
     {
         FilteredTopicNotifications.Filter = obj => value == null || ((MessageTopicNotificationData)obj).Topic == value;
+    }
+
+    public void OnNavigatedTo(object parameter)
+    {
+        if (parameter is int segmentIndex)
+        {
+            SelectedIndex = segmentIndex;
+        }
+    }
+
+    public void OnNavigatedFrom()
+    {
+
     }
 }

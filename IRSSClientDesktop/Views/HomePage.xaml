@@ -46,7 +46,14 @@
                 <ScrollViewer>
                     <StackPanel Spacing="8">
                         <StackPanel Spacing="4">
-                            <labs:SettingsCard Header="文章" IsClickEnabled="True" Description="广义上的任何“文章”——即时性比消息弱的文字、视频等" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.ArticleViewModel">
+                            <labs:SettingsCard Header="文章" IsClickEnabled="True" Description="广义上的任何“文章”——即时性比消息弱的文字、视频等" Command="{x:Bind ViewModel.NavigateToCommand}">
+                                <labs:SettingsCard.CommandParameter>
+                                    <models:PagekeyDataPair>
+                                        <models:PagekeyDataPair.Key>
+                                            <x:String>IRSSClientDesktop.ViewModels.ArticleViewModel</x:String>
+                                        </models:PagekeyDataPair.Key>
+                                    </models:PagekeyDataPair>
+                                </labs:SettingsCard.CommandParameter>
                                 <labs:SettingsCard.HeaderIcon>
                                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xF000;"/>
                                 </labs:SettingsCard.HeaderIcon>
@@ -68,7 +75,17 @@
                             </controls:AdaptiveGridView>
                         </StackPanel>
                         <StackPanel Spacing="4">
-                            <labs:SettingsCard Header="消息订阅" IsClickEnabled="True" Description="按您所关心的主题智能过滤的即使消息" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.MessageViewModel">
+                            <labs:SettingsCard Header="消息订阅" IsClickEnabled="True" Description="按您所关心的主题智能过滤的即时消息" Command="{x:Bind ViewModel.NavigateToCommand}">
+                                <labs:SettingsCard.CommandParameter>
+                                    <models:PagekeyDataPair>
+                                        <models:PagekeyDataPair.Key>
+                                            <x:String>IRSSClientDesktop.ViewModels.MessageViewModel</x:String>
+                                        </models:PagekeyDataPair.Key>
+                                        <models:PagekeyDataPair.Data>
+                                            <x:Int32>0</x:Int32>
+                                        </models:PagekeyDataPair.Data>
+                                    </models:PagekeyDataPair>
+                                </labs:SettingsCard.CommandParameter>
                                 <labs:SettingsCard.HeaderIcon>
                                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8EC;"/>
                                 </labs:SettingsCard.HeaderIcon>
@@ -87,7 +104,17 @@
                             </controls:AdaptiveGridView>
                         </StackPanel>
                         <StackPanel Spacing="4">
-                            <labs:SettingsCard Header="消息通知" IsClickEnabled="True" Description="您所添加账号接受到的强通知" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.MessageViewModel">
+                            <labs:SettingsCard Header="消息通知" IsClickEnabled="True" Description="您所添加账号接受到的强通知" Command="{x:Bind ViewModel.NavigateToCommand}">
+                                <labs:SettingsCard.CommandParameter>
+                                    <models:PagekeyDataPair>
+                                        <models:PagekeyDataPair.Key>
+                                            <x:String>IRSSClientDesktop.ViewModels.MessageViewModel</x:String>
+                                        </models:PagekeyDataPair.Key>
+                                        <models:PagekeyDataPair.Data>
+                                            <x:Int32>1</x:Int32>
+                                        </models:PagekeyDataPair.Data>
+                                    </models:PagekeyDataPair>
+                                </labs:SettingsCard.CommandParameter>
                                 <labs:SettingsCard.HeaderIcon>
                                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE910;"/>
                                 </labs:SettingsCard.HeaderIcon>
@@ -106,7 +133,17 @@
                             </controls:AdaptiveGridView>
                         </StackPanel>
                         <StackPanel Spacing="4">
-                            <labs:SettingsCard Header="消息综述" IsClickEnabled="True" Description="智能总结正在发生的对话" Command="{x:Bind ViewModel.NavigateToCommand}" CommandParameter="IRSSClientDesktop.ViewModels.MessageViewModel">
+                            <labs:SettingsCard Header="消息综述" IsClickEnabled="True" Description="智能总结正在发生的对话" Command="{x:Bind ViewModel.NavigateToCommand}">
+                                <labs:SettingsCard.CommandParameter>
+                                    <models:PagekeyDataPair>
+                                        <models:PagekeyDataPair.Key>
+                                            <x:String>IRSSClientDesktop.ViewModels.MessageViewModel</x:String>
+                                        </models:PagekeyDataPair.Key>
+                                        <models:PagekeyDataPair.Data>
+                                            <x:Int32>2</x:Int32>
+                                        </models:PagekeyDataPair.Data>
+                                    </models:PagekeyDataPair>
+                                </labs:SettingsCard.CommandParameter>
                                 <labs:SettingsCard.HeaderIcon>
                                     <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xE8BC;"/>
                                 </labs:SettingsCard.HeaderIcon>

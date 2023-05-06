@@ -41,16 +41,16 @@ public partial class HomeViewModel : ObservableRecipient
     }
 
     [RelayCommand]
-    private void NavigateTo(string key)
+    private void NavigateTo(PagekeyDataPair pair)
     {
-        _navigationService.NavigateTo(key);
+        _navigationService.NavigateTo(pair.Key, pair.Data);
     }
 
     public HomeViewModel(INavigationService navigationService)
     {
         _navigationService = navigationService;
 
-        // IsLoggedIn = true;
+        IsLoggedIn = true;
 
         Articles = new ObservableCollection<ArticleData>()
         {
