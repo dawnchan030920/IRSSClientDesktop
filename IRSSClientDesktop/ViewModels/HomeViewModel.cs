@@ -52,51 +52,53 @@ public partial class HomeViewModel : ObservableRecipient
 
         IsLoggedIn = true;
 
+        Username = "Dawn Chan";
+
         Articles = new ObservableCollection<ArticleData>()
         {
             new ArticleData()
             {
-                Content = "a black dog jumps over a brown fox.a black dog jumps over a brown fox.a black dog jumps over a brown fox.a black dog jumps over a brown fox.",
+                Content = "A black dog jumps over a brown fox.a black dog jumps over a brown fox.",
                 Id = "1",
                 IsFavorite = false,
-                MediaType = "video",
-                Platform = "bilibili",
+                MediaType = "words",
+                Platform = "zhihu",
                 Time = new DateTime(2022, 1, 1),
-                Title = "This is the test title",
-                Topic = "op"
+                Title = "Forest Story",
+                Topic = "genshin impact"
             },
             new ArticleData()
             {
-                Content = "a",
+                Content = "There are a lot of students here in the classroom.",
                 Id = "1",
                 IsFavorite = false,
-                MediaType = "video",
-                Platform = "bilibili",
+                MediaType = "words",
+                Platform = "wechat",
                 Time = new DateTime(2022, 1, 1),
-                Title = "T",
-                Topic = "op"
+                Title = "Taking Classes",
+                Topic = "Wuhan University"
             },
             new ArticleData()
             {
-                Content = "a",
+                Content = "Sakura blossoms and it's really amazing.",
                 Id = "1",
                 IsFavorite = false,
                 MediaType = "video",
                 Platform = "bilibili",
                 Time = new DateTime(2022, 1, 1),
-                Title = "T",
-                Topic = "op"
+                Title = "Sakura",
+                Topic = "Wuhan University"
             },
             new ArticleData()
             {
-                Content = "a",
+                Content = "https://www.bilibili.com",
                 Id = "1",
                 IsFavorite = false,
                 MediaType = "video",
                 Platform = "bilibili",
                 Time = new DateTime(2022, 1, 1),
-                Title = "T",
-                Topic = "op"
+                Title = "想不到你是这样的三月七",
+                Topic = "星穹铁道"
             },
         };
     }
