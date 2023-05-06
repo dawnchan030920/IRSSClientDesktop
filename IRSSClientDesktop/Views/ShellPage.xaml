@@ -10,10 +10,12 @@
     xmlns:i="using:Microsoft.Xaml.Interactivity"
     xmlns:core="using:Microsoft.Xaml.Interactions.Core"
     xmlns:converters="using:CommunityToolkit.WinUI.UI.Converters"
+    xmlns:bindFunctions="using:IRSSClientDesktop.BindFunctions"
     Loaded="OnLoaded">
 
     <Page.Resources>
         <converters:StringVisibilityConverter x:Key="StringVisibilityConverter" />
+        <converters:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
         <ContentControl x:Key="FallbackHeader" Content="Fallback" />
     </Page.Resources>
 
@@ -64,6 +66,17 @@
                     <NavigationViewItem.Icon>
                         <FontIcon Glyph="&#xE80F;" FontFamily="{StaticResource SymbolThemeFontFamily}" />
                     </NavigationViewItem.Icon>
+                </NavigationViewItem>
+
+                <NavigationViewItem Content="{x:Bind bindFunctions:BindHelpers.GetUserDisplayed(ViewModel.Username, ViewModel.IsLoggedIn)}" SelectsOnInvoked="False">
+                    <NavigationViewItem.Icon>
+                        <FontIcon Glyph="&#xE77B;" FontFamily="{StaticResource SymbolThemeFontFamily}" />
+                    </NavigationViewItem.Icon>
+                    <NavigationViewItem.MenuItems>
+                        <NavigationViewItem Content="登录" SelectsOnInvoked="False" Tag="Login"/>
+                        <NavigationViewItem Content="注册" SelectsOnInvoked="False" Tag="Register"/>
+                        <NavigationViewItem Content="注销" SelectsOnInvoked="False" Visibility="{x:Bind ViewModel.IsLoggedIn, Mode=OneWay, Converter={StaticResource BoolToVisibilityConverter}}" Tag="Logout"/>
+                    </NavigationViewItem.MenuItems>
                 </NavigationViewItem>
 
                 <NavigationViewItemSeparator />

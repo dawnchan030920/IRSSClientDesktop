@@ -29,6 +29,33 @@ public sealed partial class ShellPage : Page
         ViewModel.NavigationService.Frame = NavigationFrame;
         ViewModel.NavigationViewService.Initialize(NavigationViewControl);
 
+        NavigationViewControl.ItemInvoked += (sender, args) =>
+        {
+            var tag = args.InvokedItemContainer.Tag?.ToString();
+            if (tag == "Login")
+            {
+                var dialog = new ContentDialog();
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.CloseButtonText = "取消";
+                dialog.Title = "登录";
+                dialog.Content = App.GetService<LoginPage>();
+                dialog.ShowAsync();
+            }
+            else if (tag == "Register")
+            {
+                var dialog = new ContentDialog();
+                dialog.XamlRoot = this.XamlRoot;
+                dialog.CloseButtonText = "取消";
+                dialog.Title = "注册";
+                dialog.Content = App.GetService<RegisterPage>();
+                dialog.ShowAsync();
+            }
+            else if (tag == "Logout")
+            {
+                ViewModel.LogoutCommand.Execute(null);
+            }
+        };
+
         // TODO: Set the title bar icon by updating /Assets/WindowIcon.ico.
         // A custom title bar is required for full window theme and Mica support.
         // https://docs.microsoft.com/windows/apps/develop/title-bar?tabs=winui3#full-customization

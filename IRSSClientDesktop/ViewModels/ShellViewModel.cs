@@ -38,6 +38,18 @@ public partial class ShellViewModel : ObservableRecipient
         }
     }
 
+    [ObservableProperty]
+    private bool _isLoggedIn;
+
+    [ObservableProperty]
+    private string? _username;
+
+    [RelayCommand]
+    private void Logout()
+    {
+
+    }
+
     private bool _isBackEnabled;
     private object? _selected;
 
@@ -80,6 +92,9 @@ public partial class ShellViewModel : ObservableRecipient
         {
             SuggestedItems.Add(item);
         }
+
+        IsLoggedIn = false;
+        Username = "Dawn Chan";
     }
 
     private void OnNavigated(object sender, NavigationEventArgs e)
